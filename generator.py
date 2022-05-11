@@ -56,7 +56,7 @@ class MarkovGenerator:
              [formula, stateVariables, function] = _predefinedGenerators(name)
         self.formula = formula if isinstance(formula,sp.Expr) else sp.sympify(formula)
         self.stateVariables = [var if isinstance(var,sp.Symbol) else sp.Symbol(var) for var in stateVariables]
-        self.function = function if isinstance(function,sp.FunctionClass) else Function(function)
+        self.function = function if isinstance(function,sp.FunctionClass) else sp.Function(function)
 
     def apply(self, expression):
         """
@@ -314,8 +314,8 @@ def putzerAlgorithm(A,time = sp.Dummy("t"), rightFactor = None, simplifyAlways=T
     ----------
     A : sympy.matrices.Matrix
         A square matrix, of which the exponential exp(A*t) should be calulated
-    time : sympy.core.symbol.Dummy
-        The time variable. The default is sp.Dummy("t")
+    time : sympy.core.symbol.Symbol
+        The time variable. The default is sympy.core.symbol.Dummy("t")
     rightFactor : sympy.matrices.Matrix
         If not None then exp(A*t)*rightFactor is returned instead of exp(A*t). The number of rows of rightFactor should be equal to the dimension of A. 
         If the number of columns of rightFactor is small, then passing rightFactor as an argument is more efficient than calculating exp(A*t) first and then multiplying with rightFactor.
@@ -341,12 +341,12 @@ def putzerAlgorithm(A,time = sp.Dummy("t"), rightFactor = None, simplifyAlways=T
     PList = [P0]
     rList = [r0]
     AExp = P0 * r0
-    for i,lam in enumerate(eigenvalues[1:(n-1)]):
-        P =  A*PList[-1] - lam*PList[-1]
+    for i in range(n-1):
+        P =  A*PList[-1] - eigenvalues[i]*PList[-1]
         if simplifyAlways : P.simplify()
         PList.append(P)
-        integrand = sp.exp(-lam*time)*rList[-1]
-        r = sp.exp(lam*time)*sp.integrate(integrand,(time,0,time))
+        integrand = sp.exp(-eigenvalues[i+1]*time)*rList[-1]
+        r = sp.exp(eigenvalues[i+1]*time)*sp.integrate(integrand,(time,0,time))
         if simplifyAlways : r.simplify()
         rList.append(r)
         AExp = AExp + P * r

@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.append('/Users/martinkeller-ressel/ownCloud/Projekte/Programmierprojekte/symgen_2')
+sys.path.append('/Users/martinkeller-ressel/ownCloud/Projekte/Programmierprojekte/symgen')
 
 
 # -- Project information -----------------------------------------------------

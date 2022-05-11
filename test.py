@@ -31,7 +31,7 @@ print(end-start)
 # print(end-start)
 
 start = timer()
-sol = putzerAlgorithm(A,symbols("t"),None,True)
+sol = gen.putzerAlgorithm(A,symbols("t"),None,True)
 end = timer()
 print(end-start)
 
